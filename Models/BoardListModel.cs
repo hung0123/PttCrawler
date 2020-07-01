@@ -14,6 +14,7 @@ namespace PttCrawler.Models
         public string BoardID { get; set; }
         public string BoardHeader { get; set; }
         public string BoardType { get; set; }
+
         public string VisitCount { get; set; }
     }
 }
