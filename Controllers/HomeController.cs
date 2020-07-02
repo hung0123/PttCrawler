@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using PttCrawler.Models;
+using HtmlAgilityPack;
 
 namespace PttCrawler.Controllers
 {
@@ -24,13 +25,19 @@ namespace PttCrawler.Controllers
             BaseResultModel result = new BaseResultModel();
             try
             {
+                string res = "";
                 string index = @"https://www.ptt.cc/bbs/index.html";
                 using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = client.GetAsync(index).Result;
                     response.EnsureSuccessStatusCode();
-                    var result = response.Content.ReadAsStringAsync().Result;
+                    res = response.Content.ReadAsStringAsync().Result;
                 }
+                var htmlDoc = new HtmlDocument();
+                htmlDoc.LoadHtml(res);
+                var div = htmlDoc.DocumentNode.SelectNodes("//div/class");
+                
+
             }
             catch (Exception)
             {
