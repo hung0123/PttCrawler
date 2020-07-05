@@ -62,11 +62,15 @@ namespace PttCrawler.Controllers
         /// <param name="count">要幾筆</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetTitleInfo(string boardId, int count)
+        public ActionResult GetTitleInfo(string boardId, int count,string query,int filterH)
         {
             TitleInfoModel result = new TitleInfoModel();
             try
             {
+                if(query != null)
+                {
+                    boardId = $"bbs/{boardId}/search?page=1&q={query}";
+                }
                 int infoCount = 0;
                 List<TitleInfo> titleInfos = new List<TitleInfo>();
                 BasePtt basePtt = new BasePtt();
@@ -84,11 +88,15 @@ namespace PttCrawler.Controllers
 
                     titleInfo = new TitleInfo()
                     {
-                        Popular = item.SelectSingleNode("div[@class='nrec']").ChildNodes.Count > 0 ? item.SelectSingleNode("div[@class='nrec']").ChildNodes[0].InnerText : "0",
+                        Heat = item.SelectSingleNode("div[@class='nrec']").ChildNodes.Count > 0 ? item.SelectSingleNode("div[@class='nrec']").ChildNodes[0].InnerText : "0",
                         Author = item.SelectSingleNode("div[@class='meta']").ChildNodes[1].InnerText,
                         Date = item.SelectSingleNode("div[@class='meta']").ChildNodes[5].InnerText,
                         Title = item.SelectSingleNode("div[@class='title']").ChildNodes[1].InnerText,
                     };
+                    if(titleInfo.Heat<filterH)
+                    {
+                        continue;
+                    }
 
 
                     titleInfos.Add(titleInfo);
@@ -155,6 +163,5 @@ namespace PttCrawler.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        
     }
 }

@@ -49,7 +49,14 @@ namespace PttCrawler.Base
             string res = "";
             if (count == 0)//第一筆，index
             {
-                res = RequestPtt($"bbs/{target}/index.html");
+                if (target.Contains("search"))
+                {
+                    res = RequestPtt($"{target}");
+                }
+                else
+                {
+                    res = RequestPtt($"bbs/{target}/index.html");
+                }
             }
             else
             {

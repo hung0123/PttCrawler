@@ -12,7 +12,7 @@ namespace PttCrawler.Models
     public class TitleInfo
     {
         public string Title { get; set; }
-        public string Popular { get; set; }
+        public string Heat { get; set; }
         public string Date { get; set; }
         public string Author { get; set; }
 
