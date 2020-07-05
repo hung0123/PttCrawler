@@ -27,8 +27,8 @@ namespace PttCrawler.Controllers
             BoardListModel result = new BoardListModel();
             try
             {
-                PttRequest pttRequest = new PttRequest();
-                var res = pttRequest.RequestPtt("bbs/index.html");
+                BasePtt basePtt = new BasePtt();
+                var res = basePtt.RequestPtt("bbs/index.html");
                 var htmlDoc = new HtmlDocument();
                 htmlDoc.LoadHtml(res);
                 var board = htmlDoc.DocumentNode.SelectNodes("//a[@class='board']");
@@ -55,17 +55,49 @@ namespace PttCrawler.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="boardId">目標boardid</param>
+        /// <param name="count">要幾筆</param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult GetTitleInfo(string boardId, int count)
         {
             TitleInfoModel result = new TitleInfoModel();
             try
             {
-                int countA = 0;
+                int infoCount = 0;
                 List<TitleInfo> titleInfos = new List<TitleInfo>();
-                string res = "";
+                BasePtt basePtt = new BasePtt();
+                HtmlNode htmlNode = new HtmlNode(HtmlNodeType.Comment, new HtmlDocument(), 0);
+                HtmlNodeCollection htmlNodes = new HtmlNodeCollection(htmlNode);
+                var infos = basePtt.TraversalPtt(boardId, infoCount, count, htmlNodes);
 
-                HandleTitleInfo(boardId, 0, count, titleInfos);
+                foreach (var item in infos)
+                {
+                    TitleInfo titleInfo = new TitleInfo();
+                    if (item.SelectSingleNode("div[@class='title']").ChildNodes.Count <= 1)//已刪除的文章
+                    {
+                        continue;
+                    }
+
+                    titleInfo = new TitleInfo()
+                    {
+                        Popular = item.SelectSingleNode("div[@class='nrec']").ChildNodes.Count > 0 ? item.SelectSingleNode("div[@class='nrec']").ChildNodes[0].InnerText : "0",
+                        Author = item.SelectSingleNode("div[@class='meta']").ChildNodes[1].InnerText,
+                        Date = item.SelectSingleNode("div[@class='meta']").ChildNodes[5].InnerText,
+                        Title = item.SelectSingleNode("div[@class='title']").ChildNodes[1].InnerText,
+                    };
+
+
+                    titleInfos.Add(titleInfo);
+                    infoCount++;
+                    if (infoCount == count)
+                    {
+                        break;
+                    }
+                }
                 result.Data = titleInfos;
             }
             catch (Exception ex)
@@ -75,60 +107,54 @@ namespace PttCrawler.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        /// <summary>
-        /// 處理主資訊
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="count"></param>
-        /// <param name="targetCount"></param>
-        private void HandleTitleInfo(string target, int count, int targetCount, List<TitleInfo> titleInfos)
+        [HttpGet]
+        public ActionResult GetContent(string boardId, int count)
         {
-            PttRequest pttRequest = new PttRequest();
-            string res = "";
-            if (count == 0)//第一筆，index
+            ArticleModel result = new ArticleModel();
+            try
             {
-                res = pttRequest.RequestPtt($"bbs/{target}/index.html");
-            }
-            else
-            {
-                res = pttRequest.RequestPtt($"{target}");
-            }
-            var htmlDoc = new HtmlDocument();
-            htmlDoc.LoadHtml(res);
-            var next = htmlDoc.DocumentNode.SelectNodes("//div[@class='btn-group btn-group-paging']")[0].ChildNodes[3].Attributes[1].Value;
+                int infoCount = 0;
+                List<Article> articles = new List<Article>();
+                BasePtt basePtt = new BasePtt();
+                HtmlNode htmlNode = new HtmlNode(HtmlNodeType.Comment, new HtmlDocument(), 0);
+                HtmlNodeCollection htmlNodes = new HtmlNodeCollection(htmlNode);
+                var infos = basePtt.TraversalPtt(boardId, infoCount, count, htmlNodes);
 
-            var infos = htmlDoc.DocumentNode.SelectNodes("//div[@class='r-ent']");
-
-            foreach (var item in infos)
-            {
-                TitleInfo titleInfo = new TitleInfo();
-                if (item.SelectSingleNode("div[@class='title']").ChildNodes.Count <= 1)//已刪除的文章
+                foreach (var item in infos)
                 {
-                    continue;
+                    TitleInfo titleInfo = new TitleInfo();
+                    if (item.SelectSingleNode("div[@class='title']").ChildNodes.Count <= 1)//已刪除的文章
+                    {
+                        continue;
+                    }
+                    var contentLink = item.SelectSingleNode("div[@class='title']").ChildNodes[1].Attributes["href"].Value;
+                    var res = basePtt.RequestPtt(contentLink);
+                    var htmlDoc = new HtmlDocument();
+                    htmlDoc.LoadHtml(res);
+                    var content = htmlDoc.DocumentNode.SelectNodes("//div[@class='article-metaline']");
+                    if(content==null)
+                    {
+                        continue;
+                    }
+                    var article = new Article()
+                    {
+                        Author = content[0].ChildNodes[1].InnerText,
+                        Title = content[1].ChildNodes[1].InnerText,
+                        Time = basePtt.HandleTime(content[2].ChildNodes[1].InnerText).ToString("yyyy/MM/dd"),
+                        Content = content[2].NextSibling.InnerText,
+                        Heat = item.SelectSingleNode("div[@class='nrec']").ChildNodes.Count > 0 ? item.SelectSingleNode("div[@class='nrec']").ChildNodes[0].InnerText : "0"
+                    };
+                    articles.Add(article);
                 }
-
-                titleInfo = new TitleInfo()
-                {
-                    Popular = item.SelectSingleNode("div[@class='nrec']").ChildNodes.Count > 0 ? item.SelectSingleNode("div[@class='nrec']").ChildNodes[0].InnerText : "0",
-                    Author = item.SelectSingleNode("div[@class='meta']").ChildNodes[1].InnerText,
-                    Date = item.SelectSingleNode("div[@class='meta']").ChildNodes[5].InnerText,
-                    Title = item.SelectSingleNode("div[@class='title']").ChildNodes[1].InnerText,
-                };
-
-
-                titleInfos.Add(titleInfo);
-                count++;
-                if (count == targetCount)
-                {
-                    break;
-                }
+                result.Data = articles;
             }
-            if (count == targetCount)
+            catch (Exception ex)
             {
-                return;
+                result.Status = "NG";
+                result.Msg = ex.Message;
             }
-            HandleTitleInfo(next, count, targetCount, titleInfos);
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
-
+        
     }
 }
