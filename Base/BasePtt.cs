@@ -44,7 +44,7 @@ namespace PttCrawler.Base
             }
             return res;
         }
-        public HtmlNodeCollection TraversalPtt(string target, int count, int targetCount, HtmlNodeCollection htmlNodes)
+        public HtmlNodeCollection TraversalPtt(string target, int count, int? targetCount, HtmlNodeCollection htmlNodes)
         {
             string res = "";
             if (count == 0)//第一筆，index
@@ -64,6 +64,10 @@ namespace PttCrawler.Base
             }
             var htmlDoc = new HtmlDocument();
             htmlDoc.LoadHtml(res);
+            if(htmlDoc.DocumentNode.SelectNodes("//div[@class='btn-group btn-group-paging']")[0].ChildNodes[3].Attributes.Count==1)//沒有下一頁
+            {
+                return htmlNodes;
+            }
             var next = htmlDoc.DocumentNode.SelectNodes("//div[@class='btn-group btn-group-paging']")[0].ChildNodes[3].Attributes[1].Value;
 
             var infos = htmlDoc.DocumentNode.SelectNodes("//div[@class='r-ent']");
@@ -97,6 +101,32 @@ namespace PttCrawler.Base
             var m = (int)Enum.Parse(typeof(Month), timeM);
             DateTime result = new DateTime(timeY, m, timeD);
             return result;
+        }
+
+        public int ConvertHeat(string heat)
+        {
+            if (heat.Contains("XX"))
+            {
+                return -100;
+            }
+            else if (heat.Contains("X"))
+            {
+                heat = heat.Replace("X", "-");
+                return int.Parse(heat);
+            }
+            else if(heat=="爆")
+            {
+                return 100;
+            }
+            else if(heat=="")
+            {
+                return 0;
+            }
+            else
+            {
+                return int.Parse(heat);
+            }
+
         }
     }
 }

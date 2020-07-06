@@ -62,7 +62,7 @@ namespace PttCrawler.Controllers
         /// <param name="count">要幾筆</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetTitleInfo(string boardId, int count,string query,int filterH)
+        public ActionResult GetTitleInfo(string boardId, int? count,string query,int? filterHeat)
         {
             TitleInfoModel result = new TitleInfoModel();
             try
@@ -93,11 +93,11 @@ namespace PttCrawler.Controllers
                         Date = item.SelectSingleNode("div[@class='meta']").ChildNodes[5].InnerText,
                         Title = item.SelectSingleNode("div[@class='title']").ChildNodes[1].InnerText,
                     };
-                    if(titleInfo.Heat<filterH)
+                    titleInfo.HeatM = basePtt.ConvertHeat(titleInfo.Heat);
+                    if (titleInfo.HeatM < filterHeat)
                     {
                         continue;
                     }
-
 
                     titleInfos.Add(titleInfo);
                     infoCount++;
