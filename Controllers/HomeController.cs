@@ -19,7 +19,7 @@ namespace PttCrawler.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            return Json("", JsonRequestBehavior.AllowGet);
+            return View();
         }
         [HttpGet]
         public ActionResult GetBoardList()
@@ -70,6 +70,10 @@ namespace PttCrawler.Controllers
                 if(query != null)
                 {
                     boardId = $"bbs/{boardId}/search?page=1&q={query}";
+                }
+                if(count==null)
+                {
+                    count = 50;
                 }
                 int infoCount = 0;
                 List<TitleInfo> titleInfos = new List<TitleInfo>();
