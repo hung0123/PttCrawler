@@ -26,15 +26,38 @@
             $('#txtTargetID').val(data.BoardID);
         });
     }
-    function getInfo() {
+    function getArticle() {
         var param = {
-            "boardId":$('#txtTargetID').val(),
+            "boardId": $('#txtTargetID').val(),
+            "count": $('#txtTargetCount').val(),
+            "filterHeat":$('#txtHeat').val(),
         }
-
+        
+        var table = $('#ArticleTable').DataTable({
+            ajax: {
+                url: "GetTitleInfo",
+                type: "GET",
+                dataSrc: 'Data',
+                data:param
+            },
+            columns: [
+                { "data": "Title" },
+                { "data": "Heat" },
+                { "data": "Date" },
+                { "data": "Author" },
+            ],
+            destroy: true,
+            order: [3, 'dsc']
+        });
+    }
+    function getContent() {
+        var param = {
+            "boardId": $('#txtTargetID2').val(),
+            "count": $('#txtTargetCount2').val(),
+        }
         $.ajax({
-            type: "get",
-            timeout: 50000,
-            url: 'GetTitleInfo',
+            type: "GET",
+            url: 'GetContent',
             data: param,
             success: function (data) {
                 alert('success');
@@ -69,7 +92,7 @@
         </table>
     </div>
     <div class="col-md-4">
-        <h2>GetTitleInfo:取得該版資訊</h2>
+        <h2>GetTitleInfo:取得文章列表</h2>
         <table>
             <tr>
                 <td>
@@ -81,14 +104,62 @@
             </tr>
             <tr>
                 <td>
-                    <button onclick="getInfo()">取得列表</button>
+                    搜尋筆數
+                </td>
+                <td>
+                    <input id="txtTargetCount" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    熱門
+                </td>
+                <td>
+                    <input id="txtHeat" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="getArticle()">取得列表</button>
                 </td>
             </tr>
         </table>
-        
+        <table id="ArticleTable">
+            <thead>
+                <tr>
+                    <th>文章標題</th>
+                    <th>Heat</th>
+                    <th>發文日期</th>
+                    <th>作者</th>
+                </tr>
+            </thead>
+        </table>
+
     </div>
     <div class="col-md-4">
         <h2>GetContent:取得內容</h2>
-        <p></p>
+        <table>
+            <tr>
+                <td>
+                    看板ID
+                </td>
+                <td>
+                    <input id="txtTargetID2" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    搜尋筆數
+                </td>
+                <td>
+                    <input id="txtTargetCount2" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="getContent()">取得內容</button>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
