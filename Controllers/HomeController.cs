@@ -22,6 +22,11 @@ namespace PttCrawler.Controllers
             return View();
         }
         [HttpGet]
+        public ActionResult Article()
+        {
+            return View();
+        }
+        [HttpGet]
         public ActionResult GetBoardList()
         {
             BoardListModel result = new BoardListModel();

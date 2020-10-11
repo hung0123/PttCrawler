@@ -6,7 +6,8 @@
     function getList() {
         var table = $('#listTable').DataTable({
             ajax: {
-                'url': "GetBoardList",
+                
+                'url': '@Url.Action("GetBoardList", "Home")',
                 'type': "GET",
                 'dataSrc': 'Data'
             },
@@ -35,7 +36,7 @@
         
         var table = $('#ArticleTable').DataTable({
             ajax: {
-                url: "GetTitleInfo",
+                url: '@Url.Action("GetTitleInfo", "Home")',
                 type: "GET",
                 dataSrc: 'Data',
                 data:param
@@ -59,7 +60,7 @@
         
         var table = $('#ContentTable').DataTable({
             ajax: {
-                url: "GetContent",
+                url: '@Url.Action("GetContent", "Home")',
                 type: "GET",
                 dataSrc: 'Data',
                 data:param
@@ -182,4 +183,5 @@
             </thead>
         </table>
     </div>
+    <a href="Article">test</a>
 </div>
