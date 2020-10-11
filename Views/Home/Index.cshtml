@@ -51,19 +51,28 @@
         });
     }
     function getContent() {
+        
         var param = {
             "boardId": $('#txtTargetID2').val(),
             "count": $('#txtTargetCount2').val(),
         }
-        $.ajax({
-            type: "GET",
-            url: 'GetContent',
-            data: param,
-            success: function (data) {
-                alert('success');
-                console.log(data)
-                return false;
-            }
+        
+        var table = $('#ContentTable').DataTable({
+            ajax: {
+                url: "GetContent",
+                type: "GET",
+                dataSrc: 'Data',
+                data:param
+            },
+            columns: [
+                { "data": "Title" },
+                { "data": "Heat" },
+                { "data": "Time" },
+                { "data": "Content" },
+                { "data": "Author" },
+            ],
+            destroy: true,
+            order: [3, 'dsc']
         });
     }
 </script>
@@ -160,6 +169,17 @@
                     <button onclick="getContent()">取得內容</button>
                 </td>
             </tr>
+        </table>
+        <table id="ContentTable">
+            <thead>
+                <tr>
+                    <th>文章標題</th>
+                    <th>Heat</th>
+                    <th>發文日期</th>
+                    <th>內文</th>
+                    <th>作者</th>
+                </tr>
+            </thead>
         </table>
     </div>
 </div>
