@@ -16,6 +16,7 @@ namespace PttCrawler.Models
         public string Date { get; set; }
         public string Author { get; set; }
         public int HeatM { get; set; }
+        public string ContentID { get; set; }
 
     }
 }

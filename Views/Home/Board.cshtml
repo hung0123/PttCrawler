@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Board";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $( document ).ready(function() {
+        getArticle('@ViewBag.BoardID');
+    });
+    function getArticle(boardID) {
+        var param = {
+            "boardId": boardID,
+        }
+
+        var table = $('#ArticleTable').DataTable({
+            ajax: {
+                url: '@Url.Action("GetTitleInfo", "Home")',
+                type: "GET",
+                dataSrc: 'Data',
+                data:param
+            },
+            columns: [
+                { "data": "Title" },
+                { "data": "Heat" },
+                { "data": "Date" },
+                { "data": "Author" },
+                { "data": "ContentID"}
+            ],
+            destroy: true,
+            order: [3, 'dsc'],
+            columnDefs: [
+               {
+                   "targets": [4],
+                   "visible": false,
+                   "searchable": false
+               }
+            ],
+        });
+         $('#ArticleTable tbody').on('click', 'tr', function () {
+
+             
+             var data = table.row(this).data();
+             console.log(data.ContentID);
+         });
+
+    }
+</script>
+<h2>Board</h2>
+<div class="col">
+    <h2>@ViewBag.BoardID</h2>
+    <button onclick="getArticle('@ViewBag.BoardID')">刷新</button>
+
+    <table id="ArticleTable">
+        <thead>
+            <tr>
+                <th>文章標題</th>
+                <th>Heat</th>
+                <th>發文日期</th>
+                <th>作者</th>
+                <tH></tH></td>
+            </tr>
+        </thead>
+    </table>
+
+</div>

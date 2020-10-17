@@ -67,19 +67,12 @@ namespace PttCrawler.Controllers
         /// <param name="count">要幾筆</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetTitleInfo(string boardId, int? count,string query,int? filterHeat)
+        public ActionResult GetTitleInfo(string boardId)
         {
             TitleInfoModel result = new TitleInfoModel();
             try
             {
-                if(query != null)
-                {
-                    boardId = $"bbs/{boardId}/search?page=1&q={query}";
-                }
-                if(count==null)
-                {
-                    count = 50;
-                }
+                int count = 50;
                 int infoCount = 0;
                 List<TitleInfo> titleInfos = new List<TitleInfo>();
                 BasePtt basePtt = new BasePtt();
@@ -101,13 +94,9 @@ namespace PttCrawler.Controllers
                         Author = item.SelectSingleNode("div[@class='meta']").ChildNodes[1].InnerText,
                         Date = item.SelectSingleNode("div[@class='meta']").ChildNodes[5].InnerText,
                         Title = item.SelectSingleNode("div[@class='title']").ChildNodes[1].InnerText,
+                        ContentID = item.SelectSingleNode("div[@class='title']").ChildNodes[1].GetAttributeValue("href", string.Empty)
                     };
                     titleInfo.HeatM = basePtt.ConvertHeat(titleInfo.Heat);
-                    if (titleInfo.HeatM < filterHeat)
-                    {
-                        continue;
-                    }
-
                     titleInfos.Add(titleInfo);
                     infoCount++;
                     if (infoCount == count)
@@ -149,7 +138,7 @@ namespace PttCrawler.Controllers
                     var htmlDoc = new HtmlDocument();
                     htmlDoc.LoadHtml(res);
                     var content = htmlDoc.DocumentNode.SelectNodes("//div[@class='article-metaline']");
-                    if(content==null)
+                    if (content == null)
                     {
                         continue;
                     }
@@ -172,5 +161,14 @@ namespace PttCrawler.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
+        #region 文章列表Board
+        [HttpGet]
+        public ActionResult Board(string id)
+        {
+            ViewBag.BoardID = id;
+            return View();
+        }
+        #endregion
     }
 }
