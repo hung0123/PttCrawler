@@ -10,10 +10,12 @@
     function getList() {
         var table = $('#listTable').DataTable({
             ajax: {
-                
                 'url': '@Url.Action("GetBoardList", "Home")',
                 'type': "GET",
-                'dataSrc': 'Data'
+                "dataSrc": function (Data) {
+                    $('#json').val(JSON.stringify(Data.Data));
+                    return Data.Data;
+                }       
             },
             columns: [
                 { "data": "BoardID" },
@@ -46,5 +48,6 @@
                 </tr>
             </thead>
         </table>
+        <textarea id="json"></textarea>
     </div>
 </div>

@@ -16,6 +16,22 @@ namespace PttCrawler.Controllers
 {
     public class HomeController : Controller
     {
+        #region Login
+        [HttpGet]
+        public ActionResult Login()
+        {
+            LoginModel loginModel = new LoginModel()
+            {
+                acc = "",
+                pw = ""
+            };
+            return View(loginModel);
+        }
+        public ActionResult LoginAcc(LoginModel loginModel)
+        {
+            return View();
+        }
+        #endregion
         [HttpGet]
         public ActionResult Index()
         {
