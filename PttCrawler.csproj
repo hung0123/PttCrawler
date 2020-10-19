@@ -132,6 +132,7 @@
     <Compile Include="Models\BaseResultModel.cs" />
     <Compile Include="Models\BoardListModel.cs" />
     <Compile Include="Models\ArticleModel.cs" />
+    <Compile Include="Models\Content.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\TitleInfoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

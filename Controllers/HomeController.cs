@@ -38,9 +38,30 @@ namespace PttCrawler.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Article()
+        public ActionResult Article(string ContentUrl)
         {
-            return View();
+            Content content = new Content();
+            BasePtt basePtt = new BasePtt();
+            var res = basePtt.RequestPtt(ContentUrl);
+            var htmlDoc = new HtmlDocument();
+            htmlDoc.LoadHtml(res);
+
+            content.Title = htmlDoc.DocumentNode.SelectNodes("//span[@class='article-meta-value']")[2].InnerText;
+            content.Author = htmlDoc.DocumentNode.SelectNodes("//span[@class='article-meta-value']")[0].InnerText;
+            content.ContentDateTime = htmlDoc.DocumentNode.SelectNodes("//span[@class='article-meta-value']")[3].InnerText;
+            var a = htmlDoc.DocumentNode.SelectNodes("//div[@id='main-content']/text()").Select(item => item.InnerText).ToList();
+
+            var l = htmlDoc.DocumentNode.SelectNodes("//div[@id='main-content']/a");
+
+            List<string> linkList = new List<string>();
+            if (l!=null)
+            {
+                linkList = htmlDoc.DocumentNode.SelectNodes("//div[@id='main-content']/a").Select(item => item.InnerText).ToList();
+            }
+            content.MainContent = string.Join("", a);
+            content.link = linkList;
+            //var detail = board.Select(item => item.SelectNodes("div"));
+            return View(content);
         }
         [HttpGet]
         public ActionResult GetBoardList()

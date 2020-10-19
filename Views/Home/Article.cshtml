@@ -3,21 +3,19 @@
     ViewBag.Title = "Article";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Article</h2>
-<div class="col">
-    <h2>@ViewBag.ArticleTitle</h2>
-    <button onclick="getArticle('@ViewBag.BoardID')">刷新</button>
-
-    <table id="ArticleTable">
-        <thead>
-            <tr>
-                <th>文章標題</th>
-                <th>Heat</th>
-                <th>發文日期</th>
-                <th>作者</th>
-            </tr>
-        </thead>
-    </table>
-
+    <script type="text/javascript">
+   
+    </script>
+<title>@Model.Title</title>
+<div class="content">
+    <div class="main-info">
+        標題:<span>@Model.Title</span>
+        作者:<span>@Model.Author</span>
+        發文時間:<span>@Model.ContentDateTime</span>
+    </div>
+    @Model.MainContent
+    @foreach(string a in Model.link)
+    {
+        <img src="@a"/>
+    }
 </div>

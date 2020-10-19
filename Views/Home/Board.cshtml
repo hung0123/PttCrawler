@@ -36,10 +36,8 @@
             ],
         });
          $('#ArticleTable tbody').on('click', 'tr', function () {
-
-             
              var data = table.row(this).data();
-             console.log(data.ContentID);
+             window.location.href='@Url.Action("Article", "Home")' + '?ContentUrl=' + data.ContentID;
          });
 
     }
