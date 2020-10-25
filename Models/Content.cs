@@ -11,7 +11,8 @@ namespace PttCrawler.Models
         public string ContentDateTime { get; set; }
         public string Author { get; set; }
         public string MainContent { get; set; }
-        public List<string> link { get; set; }
+        public List<string> Imglink { get; set; }
+        public List<string> Link { get; set; }
         public List<Comment> Comments { get; set; }
     }
     public class Comment

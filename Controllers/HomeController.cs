@@ -59,7 +59,10 @@ namespace PttCrawler.Controllers
                 linkList = htmlDoc.DocumentNode.SelectNodes("//div[@id='main-content']/a").Select(item => item.InnerText).ToList();
             }
             content.MainContent = string.Join("", a);
-            content.link = linkList;
+
+            
+            content.Imglink = linkList.Where(item=>item.Contains("img")).ToList();
+            content.Link = linkList.Where(item => !item.Contains("img")).ToList();
             //var detail = board.Select(item => item.SelectNodes("div"));
             return View(content);
         }
@@ -109,7 +112,7 @@ namespace PttCrawler.Controllers
             TitleInfoModel result = new TitleInfoModel();
             try
             {
-                int count = 50;
+                int count = 100;
                 int infoCount = 0;
                 List<TitleInfo> titleInfos = new List<TitleInfo>();
                 BasePtt basePtt = new BasePtt();
@@ -134,6 +137,12 @@ namespace PttCrawler.Controllers
                         ContentID = item.SelectSingleNode("div[@class='title']").ChildNodes[1].GetAttributeValue("href", string.Empty)
                     };
                     titleInfo.HeatM = basePtt.ConvertHeat(titleInfo.Heat);
+
+                    if(titleInfo.Title.Contains("公告"))//跳過公告
+                    {
+                        continue;
+                    }
+
                     titleInfos.Add(titleInfo);
                     infoCount++;
                     if (infoCount == count)
