@@ -11,6 +11,7 @@ namespace PttCrawler.Models
     }
     public class TitleInfo
     {
+        public int Index { get; set; }
         public string Title { get; set; }
         public string Heat { get; set; }
         public string Date { get; set; }

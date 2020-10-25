@@ -2,33 +2,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script type="text/javascript">
-    $( document ).ready(function() {
-        getArticle('@ViewBag.BoardID');
-    });
-    function getArticle(boardID) {
-        var param = {
-            "boardId": boardID,
+    $(document).ready(function () {
+        
+        if (localStorage.getItem('ArticleList') == null) {
+            reNewData('@ViewBag.BoardID');
         }
-
-        var table = $('#ArticleTable').DataTable({
-            ajax: {
-                url: '@Url.Action("GetTitleInfo", "Home")',
-                type: "GET",
-                dataSrc: 'Data',
-                data:param
+        else {
+            reNewTable();
+        }
+        
+    });
+    function reNewData(boardID) {
+        var param =  {
+            "boardId": boardID
+        };
+        $.ajax({
+            type:'GET',
+            url: '@Url.Action("GetTitleInfo", "Home")',
+            data: param,
+            cache: false,
+            async:false,
+            success:function(data){
+                console.log("success");
+                localStorage.setItem('ArticleList', JSON.stringify(data));
+                reNewTable();
             },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    
+    }
+    function reNewTable() {
+        console.log('renewTable')
+        var table = $('#ArticleTable').DataTable({
+            data:JSON.parse(localStorage.getItem('ArticleList')).Data,
             columns: [
                 { "data": "Title" },
                 { "data": "Heat" },
                 { "data": "Date" },
                 { "data": "Author" },
-                { "data": "ContentID"}
+                { "data": "ContentID" },
+                { "data": "Index" }
             ],
             destroy: true,
-            order: [2, 'dsc'],
+            order: [5, 'asc'],
             columnDefs: [
                {
                    "targets": [4],
+                   "visible": false,
+                   "searchable": false
+                },
+                {
+                   "targets": [5],
                    "visible": false,
                    "searchable": false
                }
@@ -36,14 +63,20 @@
         });
          $('#ArticleTable tbody').on('click', 'tr', function () {
              var data = table.row(this).data();
+            
+             
              window.location.href='@Url.Action("Article", "Home")' + '?ContentUrl=' + data.ContentID;
          });
 
     }
+    function refresh(boardID) {
+        $("#ArticleTable tbody").off("click");
+        reNewData(boardID);
+    }
 </script>
 <div class="col">
     <h2>@ViewBag.BoardID</h2>
-    <button onclick="getArticle('@ViewBag.BoardID')">刷新</button>
+    <button onclick="refresh('@ViewBag.BoardID')">刷新</button>
 
     <table id="ArticleTable">
         <thead>
@@ -52,7 +85,8 @@
                 <th>Heat</th>
                 <th>發文日期</th>
                 <th>作者</th>
-                <tH></tH></td>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
     </table>

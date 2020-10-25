@@ -114,6 +114,7 @@ namespace PttCrawler.Controllers
             {
                 int count = 100;
                 int infoCount = 0;
+                int index = 0;
                 List<TitleInfo> titleInfos = new List<TitleInfo>();
                 BasePtt basePtt = new BasePtt();
                 HtmlNode htmlNode = new HtmlNode(HtmlNodeType.Comment, new HtmlDocument(), 0);
@@ -130,6 +131,7 @@ namespace PttCrawler.Controllers
 
                     titleInfo = new TitleInfo()
                     {
+                        Index = index,
                         Heat = item.SelectSingleNode("div[@class='nrec']").ChildNodes.Count > 0 ? item.SelectSingleNode("div[@class='nrec']").ChildNodes[0].InnerText : "0",
                         Author = item.SelectSingleNode("div[@class='meta']").ChildNodes[1].InnerText,
                         Date = item.SelectSingleNode("div[@class='meta']").ChildNodes[5].InnerText,
@@ -145,6 +147,7 @@ namespace PttCrawler.Controllers
 
                     titleInfos.Add(titleInfo);
                     infoCount++;
+                    index++;
                     if (infoCount == count)
                     {
                         break;
