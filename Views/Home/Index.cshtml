@@ -28,9 +28,10 @@
         });
 
         $('#listTable tbody').on('click', 'tr', function () {
-
+            localStorage.clear();
             var data = table.row(this).data();
             window.location.href='@Url.Action("Board", "Home")' + '?id=' + data.BoardID;
+            localStorage.setItem('Board', data.BoardID);
         });
     }
     
@@ -38,7 +39,7 @@
 
 <div class="row">
     <div class="col">
-        <table id="listTable">
+        <table id="listTable" class="table table-hover">
             <thead>
                 <tr>
                     <th>看版ID</th>
