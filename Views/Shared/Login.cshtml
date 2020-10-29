@@ -11,9 +11,9 @@
     <title>Login</title>
 </head>
 <body>
-    <form style="margin-left:10px;" method="get" action="/Home/LoginAcc">
-        <input value="@Model.acc"  name="acc"/>
-        <input value="@Model.pw"  name="pw"/>
+    <form style="margin-left:10px;" method="post" action="/Home/LoginAcc">
+        <input name="acc"/>
+        <input name="pw"/>
         <button type="submit" class="btn btn-primary">確定</button>
     </form>
 </body>

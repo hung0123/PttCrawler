@@ -11,6 +11,7 @@ using PttCrawler.Models;
 using HtmlAgilityPack;
 using System.Text;
 using PttCrawler.Base;
+using System.Security.Cryptography;
 
 namespace PttCrawler.Controllers
 {
@@ -20,15 +21,16 @@ namespace PttCrawler.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            LoginModel loginModel = new LoginModel()
-            {
-                acc = "",
-                pw = ""
-            };
-            return View(loginModel);
+            return View();
         }
-        public ActionResult LoginAcc(LoginModel loginModel)
+        [HttpPost]
+        public ActionResult LoginAcc(LoginModel data)
         {
+            string acc = data.acc;
+            string pw = data.pw;
+
+            string a = Encrypt.EncryptAES("5566good");
+
             return View();
         }
         #endregion
