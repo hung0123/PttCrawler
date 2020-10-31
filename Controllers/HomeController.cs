@@ -12,6 +12,7 @@ using HtmlAgilityPack;
 using System.Text;
 using PttCrawler.Base;
 using System.Security.Cryptography;
+using PttCrawler.Filter;
 
 namespace PttCrawler.Controllers
 {
@@ -21,22 +22,43 @@ namespace PttCrawler.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            return View();
+            LoginModel login = new LoginModel()
+            {
+                acc = "",
+                pw = ""
+            };
+            return View(login);
         }
         [HttpPost]
         public ActionResult LoginAcc(LoginModel data)
         {
             string acc = data.acc;
             string pw = data.pw;
+            if (pw == "0000")
+            {
+                string authKey = Encrypt.EncryptAES("5566good" + "|" + System.DateTime.Now.AddHours(1).ToString("yyyy/MM/dd HH:mm:ss"));
 
-            string a = Encrypt.EncryptAES("5566good");
-
-            return View();
+                HttpCookie pttAuth = new HttpCookie("PttAuth");
+                pttAuth.Value = authKey;
+                pttAuth.Expires = DateTime.Now.AddHours(1);
+                Response.SetCookie(pttAuth);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                LoginModel login = new LoginModel()
+                {
+                    acc = "帳號錯誤"
+                };
+                return View("Login",login);
+            }
         }
         #endregion
         [HttpGet]
+        [AuthFliter]
         public ActionResult Index()
         {
+            
             return View();
         }
         [HttpGet]

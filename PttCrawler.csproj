@@ -126,6 +126,7 @@
     <Compile Include="Base\BasePtt.cs" />
     <Compile Include="Base\Encrypt.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Filter\AuthFliter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -178,7 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Filter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
