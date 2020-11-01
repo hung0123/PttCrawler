@@ -13,7 +13,7 @@
                 'url': '@Url.Action("GetBoardList", "Home")',
                 'type': "GET",
                 "dataSrc": function (Data) {
-                    $('#json').val(JSON.stringify(Data.Data));
+                   
                     return Data.Data;
                 }       
             },
@@ -24,8 +24,10 @@
                 { "data": "VisitCount" },
             ],
             destroy: true,
-            order: [3, 'dsc']
+            order: [3, 'dsc'],
+            bInfo: false
         });
+        
 
         $('#listTable tbody').on('click', 'tr', function () {
             localStorage.clear();
@@ -44,11 +46,10 @@
                 <tr>
                     <th>看版ID</th>
                     <th>看板標題</th>
-                    <th>看板類型</th>
+                    <th>類型</th>
                     <th>熱門</th>
                 </tr>
             </thead>
         </table>
-        <textarea id="json"></textarea>
     </div>
 </div>

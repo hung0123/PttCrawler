@@ -2,19 +2,55 @@
 @{
     Layout = null;
 }
-
+<script src="https://kit.fontawesome.com/5a2a4ccf3b.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 <!DOCTYPE html>
+<style>
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 98vh;
+    }
 
+    .center {
+    }
+
+    input {
+        margin: 6px
+    }
+
+    .lineWrap {
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+</style>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Login</title>
 </head>
 <body>
-    <form style="margin-left:10px;" method="post" action="/Home/LoginAcc">
-        <input name="acc" value="@Model.acc"/>
-        <input name="pw"/>
-        <button type="submit" class="btn btn-primary">確定</button>
-    </form>
+
+    <div class="container">
+
+        <form class="center" method="post" action="/Home/LoginAcc" style="align-content:center">
+            <div class="lineWrap">
+                <i class="fas fa-paw" style="font-size:100px"></i>
+            </div>
+            <div class="lineWrap">
+                <i class="fas fa-user-circle" style="font-size:35px"></i>
+                <input name="acc" value="@Model.acc" placeholder="Account" class="form-control"/>
+            </div>
+            <div class="lineWrap">
+                <i class="fas fa-key" style="font-size:35px"></i>
+                <input name="pw" placeholder="Password" class="form-control"/>
+            </div>
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">確定</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

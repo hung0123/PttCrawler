@@ -48,7 +48,7 @@ namespace PttCrawler.Controllers
             {
                 LoginModel login = new LoginModel()
                 {
-                    acc = "帳號錯誤"
+                    acc = "帳號/密碼錯誤",
                 };
                 return View("Login",login);
             }
