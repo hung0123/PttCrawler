@@ -53,12 +53,18 @@ namespace PttCrawler.Controllers
                 return View("Login",login);
             }
         }
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            Response.Cookies.Clear();
+            return RedirectToAction("Login");
+        }
         #endregion
         [HttpGet]
         [AuthFliter]
         public ActionResult Index()
         {
-            
             return View();
         }
         [HttpGet]
