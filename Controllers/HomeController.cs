@@ -62,11 +62,16 @@ namespace PttCrawler.Controllers
         }
         #endregion
         [HttpGet]
-        [AuthFliter]
+        //[AuthFliter]
         public ActionResult Index()
         {
             return View();
         }
+        /// <summary>
+        /// 取得文章內容
+        /// </summary>
+        /// <param name="ContentUrl">內容連結</param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Article(string ContentUrl)
         {
@@ -96,6 +101,10 @@ namespace PttCrawler.Controllers
             //var detail = board.Select(item => item.SelectNodes("div"));
             return View(content);
         }
+        /// <summary>
+        /// 取得熱門列表
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult GetBoardList()
         {
@@ -131,13 +140,12 @@ namespace PttCrawler.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// 
+        /// 文章列表
         /// </summary>
         /// <param name="boardId">目標boardid</param>
-        /// <param name="count">要幾筆</param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetTitleInfo(string boardId)
+        public ActionResult GetArticleList(string boardId)
         {
             TitleInfoModel result = new TitleInfoModel();
             try

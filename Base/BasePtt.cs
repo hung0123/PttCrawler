@@ -73,7 +73,10 @@ namespace PttCrawler.Base
             var infos = htmlDoc.DocumentNode.SelectNodes("//div[@class='r-ent']");
 
             count += infos.Count;
-            foreach (var info in infos)
+
+            var infoList = infos.Reverse();//抓下來的資料會是倒排的
+
+            foreach (var info in infoList)
             {
                 htmlNodes.Add(info);
             }

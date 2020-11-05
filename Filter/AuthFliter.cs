@@ -12,6 +12,8 @@ namespace PttCrawler.Filter
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             var cookie = filterContext.HttpContext.Request.Cookies;
+            
+            
             if (cookie != null)
             {
                 if (cookie["PttAuth"] != null)
