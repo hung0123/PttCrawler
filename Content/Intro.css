@@ -1,0 +1,14 @@
+﻿.site-self {
+    height: 100vh;
+	min-height: 800px;
+    background-repeat: no-repeat;
+    background-color: #ccc;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    overflow: hidden;
+}
+.site-self, .site-self .row {
+    height: 100vh;
+    min-height: 800px;
+}

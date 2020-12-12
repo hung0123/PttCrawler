@@ -126,6 +126,7 @@
     <Compile Include="Base\BasePtt.cs" />
     <Compile Include="Base\Encrypt.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IntroController.cs" />
     <Compile Include="Filter\AuthFliter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -139,6 +140,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Img\pexels-photo-1420709.jpeg" />
+    <Content Include="Content\Intro.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -159,6 +162,7 @@
     <Content Include="Views\Home\Article.cshtml" />
     <Content Include="Views\Home\Board.cshtml" />
     <Content Include="Views\Shared\Login.cshtml" />
+    <Content Include="Views\Intro\Intro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
