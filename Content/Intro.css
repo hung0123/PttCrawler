@@ -1,6 +1,6 @@
 ﻿.site-self {
     height: 100vh;
-	min-height: 800px;
+    min-height: 800px;
     background-repeat: no-repeat;
     background-color: #ccc;
     background-size: cover;
@@ -8,7 +8,29 @@
     position: relative;
     overflow: hidden;
 }
-.site-self, .site-self .row {
-    height: 100vh;
-    min-height: 800px;
+
+    .site-self, .site-self .row {
+        height: 100vh;
+        min-height: 800px;
+    }
+
+.site-project {
+    padding: 3rem;
+}
+
+.filters ul li {
+    display: inline-block;
+    cursor: pointer;
+    padding: 20px;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+.filters {
+    text-align: center;
+}
+
+.filters ul li.active {
+    color: #bac964;
 }
