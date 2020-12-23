@@ -34,3 +34,19 @@
 .filters ul li.active {
     color: #bac964;
 }
+.filters-content{
+    padding-top:1rem;
+}
+.p-inner{
+    text-align:center;
+    margin:1rem;
+}
+.resume-item {
+    background: #f2f2f2;
+    padding: 30px;
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+    border: 4px solid transparent;
+    border-radius: 7px;
+}
