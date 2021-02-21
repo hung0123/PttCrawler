@@ -140,6 +140,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Img\pexels-lumn-316466.jpg" />
     <Content Include="Content\Img\pexels-photo-1420709.jpeg" />
     <Content Include="Content\Intro.css" />
     <Content Include="favicon.ico" />

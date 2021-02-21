@@ -19,23 +19,17 @@
     
     <nav class="navbar navbar-expand-lg site-navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="@Url.Action("Index", "Home")">首頁</a>
+            <a class="navbar-brand" href="@Url.Action("Index", "Intro")">首頁</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav" style="justify-content:center">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Home")">Home</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Home")">作品集</a>
-                    </li>
-                    <li class="nav-item active">
                         <a class="nav-link active" aria-current="page" href="@Url.Action("Intro", "Intro")">自我介紹</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Home")">Home</a>
+                        <a class="nav-link active" aria-current="page" href="@Url.Action("Index", "Home")">Ptt爬蟲</a>
                     </li>
                 </ul>
                 <a class="navbar-nav flex-row ml-md-auto d-none d-md-flex btn btn-bd-download d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="@Url.Action("Logout", "Home")">登出</a>
